@@ -102,23 +102,23 @@ let print_carte carte =
     match carte with
     | Carte(f, c) -> print_string (getValueOfFace f) ; print_string " de " ;print_string (getValueOfCouleur c); print_newline();
 ;;
+let create_deck ()= 
+    let rec sub_create_deck nb i =
+        match i with
+        | 1 -> Carte (getFace nb,Carreau):: if nb == 2 then [] else sub_create_deck (nb-1) i
+        | 2 -> Carte (getFace nb,Coeur):: if nb == 2 then sub_create_deck 14 (i-1) else sub_create_deck (nb-1) i
+        | 3 -> Carte (getFace nb,Trefle):: if nb == 2 then sub_create_deck 14 (i-1) else sub_create_deck (nb-1) i
+        | 4 -> Carte (getFace nb, Pique):: if nb == 2 then sub_create_deck 14 (i-1) else sub_create_deck (nb-1) i
+        | _ -> failwith "errror create deck" 
+    in sub_create_deck 14 4
+;;
 
-let rec sub_create_deck nb i =
-    match i with
-    | 1 -> Carte (getFace nb,Carreau):: if nb == 2 then [] else sub_create_deck (nb-1) i
-    | 2 -> Carte (getFace nb,Coeur):: if nb == 2 then sub_create_deck 14 (i-1) else sub_create_deck (nb-1) i
-    | 3 -> Carte (getFace nb,Trefle):: if nb == 2 then sub_create_deck 14 (i-1) else sub_create_deck (nb-1) i
-    | 4 -> Carte (getFace nb, Pique):: if nb == 2 then sub_create_deck 14 (i-1) else sub_create_deck (nb-1) i
-    | _ -> failwith "errror create deck" ;;
-
-let create_deck () = 
-    sub_create_deck 14 4;;
 
 let deck = create_deck ();;
 
 let rec print_list list =  
     match list with
     [] -> ()
-    | e::l -> print_carte e ; print_string " " ; print_list l 
+    | e::l -> print_carte e  ; print_list l 
 ;;
 print_list deck;;
