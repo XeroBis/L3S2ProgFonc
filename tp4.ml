@@ -4,6 +4,22 @@ type couleur = Trefle | Carreau | Coeur | Pique ;;
 
 type carte = Carte of face * couleur;;
 
+let getFace i = 
+    match i with 
+    | 2 -> Deux 
+    | 3 -> Trois 
+    | 4 -> Quatre 
+    | 5 -> Cinq 
+    | 6 -> Six 
+    | 7 -> Sept 
+    | 8 -> Huit 
+    | 9 -> Neuf 
+    | 10 -> Dix 
+    | 11 -> Valet 
+    | 12 -> Dame 
+    | 13 -> Roi 
+    | 14 -> As 
+    | _ -> failwith "error getFace";;
 
 let getValue carte = 
     match carte with
@@ -56,18 +72,53 @@ let score_carte carte =
         | Carte (Roi,_ )-> 4
         | Carte (As,_) -> 11;;
 
-let rec ajout_face l i face= begin match i with
-  | 1 -> l
-  | _ -> [Carte (int_to_face i,face)]::(ajout_face l (i-1) face)@l
-end;;
 
-let rec ajout_carte l j = begin match j with
-    | 1 -> (ajout_face l 14 Carreau)
-    | 2 -> (ajout_face l 14 Coeur)@(ajout_carte l 1)@l
-    | 3 -> (ajout_face l 14 Trefle)@(ajout_carte l 2)@l
-    | 4 -> (ajout_face l 14 Pique)@(ajout_carte l 3)@l
-    | _ -> failwith "Entier incorrect pour j"
-end;;
 
-let l1 = [];;
-let deck = ajout_carte l1 4;;
+let getValueOfFace f = 
+    match f with
+    | Deux -> "2"
+    | Trois -> "3"
+    | Quatre -> "4"
+    | Cinq -> "5"
+    | Six -> "6"
+    | Sept -> "7"
+    | Huit -> "8"
+    | Neuf -> "9"
+    | Dix -> "10"
+    | Valet -> "Valet"
+    | Dame -> "Dame"
+    | Roi -> "Roi"
+    | As -> "As"
+;;
+
+let getValueOfCouleur c = 
+    match c with 
+    | Carreau -> "Carreau"
+    | Trefle -> "Trefle"
+    | Coeur -> "Coeur"
+    | Pique -> "Pique"
+
+let print_carte carte =
+    match carte with
+    | Carte(f, c) -> print_string (getValueOfFace f) ; print_string " de " ;print_string (getValueOfCouleur c); print_newline();
+;;
+
+let rec sub_create_deck nb i =
+    match i with
+    | 1 -> Carte (getFace nb,Carreau):: if nb == 2 then [] else sub_create_deck (nb-1) i
+    | 2 -> Carte (getFace nb,Coeur):: if nb == 2 then sub_create_deck 14 (i-1) else sub_create_deck (nb-1) i
+    | 3 -> Carte (getFace nb,Trefle):: if nb == 2 then sub_create_deck 14 (i-1) else sub_create_deck (nb-1) i
+    | 4 -> Carte (getFace nb, Pique):: if nb == 2 then sub_create_deck 14 (i-1) else sub_create_deck (nb-1) i
+    | _ -> failwith "errror create deck" ;;
+
+let create_deck () = 
+    sub_create_deck 14 4;;
+
+let deck = create_deck ();;
+
+let rec print_list list =  
+    match list with
+    [] -> ()
+    | e::l -> print_carte e ; print_string " " ; print_list l 
+;;
+print_list deck;;
