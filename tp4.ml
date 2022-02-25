@@ -1,3 +1,4 @@
+Random.self_init();;
 type face = Deux | Trois | Quatre | Cinq | Six | Sept | Huit | Neuf | Dix | Valet | Dame | Roi | As ;;
 
 type couleur = Trefle | Carreau | Coeur | Pique ;;
@@ -121,4 +122,43 @@ let rec print_list list =
     [] -> ()
     | e::l -> print_carte e  ; print_list l 
 ;;
-print_list deck;;
+(* 
+print_list deck;; 
+*)
+
+
+let echange l i = 
+    let elem = List.nth l i  in
+    elem::(List.filter (fun x -> x<>elem) l)
+;;
+
+
+(* Question 3 *)
+
+let rec melange l i n =
+    if i = n
+    then
+        l
+    else 
+        melange (echange l (Random.int 52)) (i+1) n
+;;
+
+(* 
+let l1 = melange deck 0 1000;;
+print_newline();;
+print_list l1;;
+*)
+
+
+(* Question 4 *)
+let rec distribue d l1 l2 = 
+    if List.length l1 = List.length d / 2
+    then
+        (l1,l2)
+    else 
+        match d with
+            | [] -> failwith "error"
+            | x::y::t -> distribue d (x::l1) (y::l2)
+;;
+
+(* Question 5*)
