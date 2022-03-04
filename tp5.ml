@@ -1,0 +1,1 @@
+type 'a abr = Leaf | Node of 'a abr * 'a abr;;
