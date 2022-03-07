@@ -1,4 +1,4 @@
 #!/bin/bash
 
-ocamlc -o build/tp4 tp4.ml
-./build/tp4
+ocamlc -o build/tp5 tp5.ml
+./build/tp5
