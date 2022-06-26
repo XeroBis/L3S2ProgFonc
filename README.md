@@ -1,1 +1,2 @@
-# L3S2ProgFonc
+# ProgFonc
+Programmation Fonctionnelle
